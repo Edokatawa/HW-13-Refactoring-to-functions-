@@ -11,39 +11,34 @@ const GRN_PER_DOLLAR = 41;
 const DISCOUNT_START_FROM = 10000;
 const DISCOUNT = 20;
 
-for (let prodId = 0;prodId < products.length;prodId++) {
-    console.log(`${prodId + 1} ${products[prodId].name} ${products[prodId].price}`);
-}
-
-let prodNum;
-
-do {
-    prodNum = prompt('Write product number:');
-
-    if (prodNum === null) {
-        break;
+const listProducts = function(arr) {
+    for (let prodId = 0; prodId < arr.length;prodId++) {
+        console.log(`${prodId + 1} ${arr[prodId].name} ${arr[prodId].price}`);
     }
-    prodNum--;
-} while (prodNum < 0 || prodNum > products.length - 1 || isNaN(prodNum));
+};
 
-if (typeof prodNum === 'number') {
-    const product = products[prodNum];
+const getNumberIndexProducts = function(arrProducts) {
+    let numb = prompt('Write product number:');
 
-    console.log(product);
+    if (numb === null) {
+        return;
+    }
+    numb--;
+    if ((numb < 0) || (numb > arrProducts.length - 1) || (isNaN(numb))) {
+        return getNumberIndexProducts(arrProducts);
+    }
+    return numb;
+};
 
-    let prodCount;
+const getSelectedProduct = function(arrProd, prodIndex) {
+    if (typeof prodIndex === 'number') {
+        return arrProd[prodIndex];
+    }
+};
 
-    do {
-        prodCount = prompt('Write product count:');
-
-        if (prodCount === null) {
-            break;
-        }
-        prodCount = +prodCount;
-    } while(prodCount <= 0 || isNaN(prodCount));
-
+const calculationPriceAndDiscount = function(prodCount, selectProd) {
     if (typeof prodCount === 'number') {
-        const totalProdPrice = prodCount * product.price;
+        const totalProdPrice = prodCount * selectProd.price;
 
         console.log(`Total price: $${totalProdPrice}`);
 
@@ -52,4 +47,29 @@ if (typeof prodNum === 'number') {
             console.log(`Your total price is: ${totalProdPrice * (100 - DISCOUNT) / 100}`);
         }
     }
-}
+};
+
+const totalProductPrice = function(prodIndex, selectProd) {
+    if (typeof prodIndex === 'number') {
+        let  prodCount = prompt('Write product count:');
+    
+        if (prodCount === null) {
+            return;
+        }
+        prodCount = +prodCount;
+        if (prodCount <= 0 || isNaN(prodCount)) {
+            return totalProductPrice(prodIndex);
+        }
+
+        return calculationPriceAndDiscount(prodCount, selectProd);
+    }
+};
+
+
+listProducts(products);
+const prodNum = getNumberIndexProducts(products);
+const selectProd = getSelectedProduct(products, prodNum);
+console.log(selectProd);
+totalProductPrice(prodNum, selectProd);
+
+
