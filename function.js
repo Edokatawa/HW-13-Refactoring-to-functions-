@@ -22,7 +22,7 @@ const getNumberIndexProducts = arrProductsLength => {
 };
 
 const getCountProducts = selectProducts => {
-    if (typeof +selectProducts === "number") {
+    if (selectProducts !== null) {
         let prodCount = prompt("Write product count:");
 
         if (prodCount === null) {
@@ -49,7 +49,11 @@ const calculationDiscount = totalProductPrice => {
 };
 
 const totalProductPrice = (prodIndex, selectProd, prodCount) => {
-    if (typeof prodIndex === "number" && typeof prodCount === "number") {
+    if (
+        typeof prodIndex === "number" &&
+        typeof prodCount === "number" &&
+        selectProd !== null
+    ) {
         const totalProductPrice = prodCount * selectProd.price;
 
         console.log(`Total price: $${totalProductPrice}`);
